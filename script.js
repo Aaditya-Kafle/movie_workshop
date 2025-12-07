@@ -15,14 +15,13 @@ const movieElement = document.createElement('div');
 movieElement.classList.add('movie-item');
 movieElement.innerHTML = `
 <p><strong>${movie.title}</strong> (${movie.year}) - ${movie.genre}</p>
-<button onclick="editMoviePrompt(${movie.id}, '${movie.title}', ${movie.year},
+<button onclick="editMoviePrompt('${movie.id}', '${movie.title}', '${movie.year}',
 '${movie.genre}')">Edit</button>
-<button onclick="deleteMovie(${movie.id})">Delete</button>
+<button onclick="deleteMovie('${movie.id}')">Delete</button>
 `;
 movieListDiv.appendChild(movieElement);
 });
 }
-
 // Function to fetch all movies and store them (READ)
 function fetchMovies() {
 fetch(API_URL)
@@ -35,9 +34,6 @@ renderMovies(allMovies); // Display the full list
 }
 fetchMovies(); // Initial load
 
-
-//search 
-
 searchInput.addEventListener('input', function() {
 const searchTerm = searchInput.value.toLowerCase();
 // Filter the global 'allMovies' array based on title or genre match
@@ -49,7 +45,6 @@ return titleMatch || genreMatch;
 renderMovies(filteredMovies); // Display the filtered results
 });
 
-// Create operation
 form.addEventListener('submit', function(event) {
 event.preventDefault();
 const newMovie = {
@@ -72,8 +67,6 @@ fetchMovies(); // Refresh the list
 })
 .catch(error => console.error('Error adding movie:', error));
 });
-
-//update 
 
 // Function to collect new data
 function editMoviePrompt(id, currentTitle, currentYear, currentGenre) {
@@ -107,7 +100,6 @@ fetchMovies(); // Refresh list
 .catch(error => console.error('Error updating movie:', error));
 }
 
-//delete operation
 function deleteMovie(movieId) {
 fetch(`${API_URL}/${movieId}`, { // Target the specific resource by ID
 method: 'DELETE',
